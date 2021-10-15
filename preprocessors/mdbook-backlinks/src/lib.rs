@@ -9,7 +9,7 @@ use std::path::PathBuf;
 use toml::value::Value;
 
 static MDLINK_REGEX: Lazy<Regex> =
-    lazy_regex!(r"\[([^\]]*)\]\([^\)]+\)")
+    lazy_regex!(r"\[([^\]]*)\]\([^\)]+\)");
 
 pub struct Backlinks;
 
