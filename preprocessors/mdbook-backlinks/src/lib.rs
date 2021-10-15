@@ -8,8 +8,8 @@ use std::collections::HashMap;
 use std::path::PathBuf;
 use toml::value::Value;
 
-static WIKILINK_REGEX: Lazy<Regex> =
-    lazy_regex!(r"\[\[(?P<link>[^\]\|]+)(?:\|(?P<title>[^\]]+))?\]\]");
+static MDLINK_REGEX: Lazy<Regex> =
+    lazy_regex!(r"\[([^\]]*)\]\([^\)]+(?<=\.md)\)");
 
 pub struct Backlinks;
 
@@ -86,7 +86,7 @@ impl Preprocessor for Backlinks {
 fn find_links(content: &str, index: &HashMap<PathBuf, Vec<Chapter>>) -> Vec<PathBuf> {
     let mut links: Vec<PathBuf> = Vec::new();
 
-    for cap in WIKILINK_REGEX.captures_iter(&content) {
+    for cap in MDLINK_REGEX.captures_iter(&content) {
         if let Some(dest) = cap.get(1) {
             let mut path = PathBuf::from(dest.as_str());
             path.set_extension("md");
